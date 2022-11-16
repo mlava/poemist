@@ -59,13 +59,16 @@ async function fetchRandomPoem(uid) {
         let title = data[0].title.toString();
         let url = data[0].url.toString();
         let poem = data[0].content.toString();
+        let poemBlocks = poem.split("\n\n");
+        let poemBlockOutput = [];
+        for (var i=0; i<poemBlocks.length; i++) {
+            poemBlockOutput.push({"text": poemBlocks[i]});
+        }
+        poemBlockOutput.push({"text": "[" + title + "](" + url + ")"})
         return [
             {
                 text: "**[[" + title + "]]** by [[" + poet + "]]",
-                children: [
-                    { text: "" + poem + "" },
-                    { text: "[" + title + "](" + url + ")" }
-                ]
+                children: poemBlockOutput
             },
         ];
     } else {
