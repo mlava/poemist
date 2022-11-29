@@ -128,7 +128,7 @@ async function fetchRandomPoetryDB() {
         let poemLines = data[0].lines;
         let poemBlockOutput = [];
         for (var i = 0; i < poemLines.length; i++) {
-            poemLines[i].replace("`", "'");
+            poemLines[i].replaceAll("`", "'");
             poemBlockOutput.push({ "text": poemLines[i].toString() });
         }
         return [
