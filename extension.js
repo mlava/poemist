@@ -89,9 +89,7 @@ export default {
 
 async function fetchRandomPoemist() {
     const response = await fetch("https://www.poemist.com/api/v1/randompoems");
-    console.info(response);
     const data = await response.json();
-    console.info(data);
     if (response.ok) {
         let poet = data[0].poet.name.toString();
         let title = data[0].title.toString();
