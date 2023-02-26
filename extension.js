@@ -1,6 +1,6 @@
 export default {
     onload: ({ extensionAPI }) => {
-        window.roamAlphaAPI.ui.commandPalette.addCommand({
+        extensionAPI.ui.commandPalette.addCommand({
             label: "Random Poem from Poemist",
             callback: () => {
                 const uid = window.roamAlphaAPI.ui.getFocusedBlock()?.["block-uid"];
@@ -25,7 +25,7 @@ export default {
             }
         });
 
-        window.roamAlphaAPI.ui.commandPalette.addCommand({
+        extensionAPI.ui.commandPalette.addCommand({
             label: "Random Poem from PoetryDB",
             callback: () => {
                 const uid = window.roamAlphaAPI.ui.getFocusedBlock()?.["block-uid"];
@@ -74,12 +74,6 @@ export default {
         }
     },
     onunload: () => {
-        window.roamAlphaAPI.ui.commandPalette.removeCommand({
-            label: 'Random Poem from Poemist'
-        });
-        window.roamAlphaAPI.ui.commandPalette.removeCommand({
-            label: 'Random Poem from PoetryDB'
-        });
         if (window.roamjs?.extension?.smartblocks) {
             window.roamjs.extension.smartblocks.unregisterCommand("POEMIST");
             window.roamjs.extension.smartblocks.unregisterCommand("POETRYDB");
