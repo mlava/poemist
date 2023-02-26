@@ -1,5 +1,8 @@
 Import a poem from the collections at Poemist or PoetryDB, including the full poem text (and a link back to the source for Poemist). A page link is created for the poet's name and poem title.
 
+**New:**
+- now compatible with new Roam Research extension custom hotkeys
+
 ![image](https://user-images.githubusercontent.com/6857790/202032599-65159c90-bebd-441a-be53-3b852def919c.png)
 
 This extension can be triggered by:
