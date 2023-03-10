@@ -1,0 +1,12 @@
+[data-tag^="PAD_wide"] {
+    display: none;
+}
+
+[data-page-links^='["PAD_wide"]'] .roam-block {
+    height: 250px !important;
+}
+
+[data-page-links^='["PAD_wide"]'] .hoverparent, [data-page-links^='["PAD_wide"]'] .react-resizable, [data-page-links^='["PAD_wide"]'] iframe {
+    height: 150px !important;
+    width: 600px !important;
+}
