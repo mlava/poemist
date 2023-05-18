@@ -182,7 +182,10 @@ async function fetchPaD() {
         let title = data[0].poem.title.toString();
         let attrib = data[0].poem.attribution.toString();
         attrib = attrib.replace("<p>", "");
-        attrib = attrib.replace("</p>", "");        
+        attrib = attrib.replace("</p>", "");
+        attrib = attrib.replaceAll("<span>", "");
+        attrib = attrib.replaceAll("</span>", "");
+        attrib = attrib.replaceAll("&nbsp;", "");
         let sc = data[0].poem.soundcloud.toString();
         const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
         const scSubst = `$1`;
