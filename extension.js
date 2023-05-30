@@ -186,10 +186,6 @@ async function fetchPaD() {
         attrib = attrib.replaceAll("<span>", "");
         attrib = attrib.replaceAll("</span>", "");
         attrib = attrib.replaceAll("&nbsp;", "");
-        let sc = data[0].poem.soundcloud.toString();
-        const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
-        const scSubst = `$1`;
-        const scResult = sc.replace(scRegex, scSubst);
         const regex = /(<p>)?<span class=("long line"|"long-line")>(.+)<\/span>(<\/p>|<br \/>)/mg;
         const subst = `$3`;
         const result = data[0].poem.text.toString().replace(regex, subst);
@@ -214,7 +210,14 @@ async function fetchPaD() {
             poemBlockOutput.push({ "text": about });
         }
         poemBlockOutput.push({ "text": attrib });
-        poemBlockOutput.push({ "text": "{{iframe: " + scResult + "}} #PAD_wide" });
+        
+        if (data[0].poem.soundcloud != null) {
+            let sc = data[0].poem.soundcloud.toString();
+            const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
+            const scSubst = `$1`;
+            const scResult = sc.replace(scRegex, scSubst);
+            poemBlockOutput.push({ "text": "{{iframe: " + scResult + "}} #PAD_wide" });
+        }
         return [
             {
                 text: "**[[" + title + "]]** by [[" + poet + "]]",
