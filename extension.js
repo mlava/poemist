@@ -1,5 +1,6 @@
 export default {
     onload: ({ extensionAPI }) => {
+        /*
         extensionAPI.ui.commandPalette.addCommand({
             label: "Random Poem from Poemist",
             callback: () => {
@@ -24,6 +25,7 @@ export default {
                 });
             }
         });
+        */
 
         extensionAPI.ui.commandPalette.addCommand({
             label: "Random Poem from PoetryDB",
@@ -91,7 +93,7 @@ export default {
             handler: (context) => fetchPaD,
         };
         if (window.roamjs?.extension?.smartblocks) {
-            window.roamjs.extension.smartblocks.registerCommand(args);
+            //window.roamjs.extension.smartblocks.registerCommand(args);
             window.roamjs.extension.smartblocks.registerCommand(args1);
             window.roamjs.extension.smartblocks.registerCommand(args2);
         } else {
@@ -99,7 +101,7 @@ export default {
                 `roamjs:smartblocks:loaded`,
                 () =>
                     window.roamjs?.extension.smartblocks &&
-                    window.roamjs.extension.smartblocks.registerCommand(args) &&
+                  //  window.roamjs.extension.smartblocks.registerCommand(args) &&
                     window.roamjs.extension.smartblocks.registerCommand(args1) &&
                     window.roamjs.extension.smartblocks.registerCommand(args2)
             );
@@ -107,7 +109,7 @@ export default {
     },
     onunload: () => {
         if (window.roamjs?.extension?.smartblocks) {
-            window.roamjs.extension.smartblocks.unregisterCommand("POEMIST");
+           // window.roamjs.extension.smartblocks.unregisterCommand("POEMIST");
             window.roamjs.extension.smartblocks.unregisterCommand("POETRYDB");
             window.roamjs.extension.smartblocks.unregisterCommand("POEMADAY");
         }
@@ -173,7 +175,7 @@ async function fetchRandomPoetryDB() {
 };
 
 async function fetchPaD() {
-    const response = await fetch("https://p-a-d.mlavercombe.repl.co");
+    const response = await fetch("https://p-a-d-marklavercombe.replit.app/");
 
     if (response.ok) {
         var data = await response.json();
@@ -216,7 +218,8 @@ async function fetchPaD() {
             const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
             const scSubst = `$1`;
             const scResult = sc.replace(scRegex, scSubst);
-            poemBlockOutput.push({ "text": "{{iframe: " + scResult + "}} #PAD_wide" });
+            //poemBlockOutput.push({ "text": "{{iframe: " + scResult + "}} #PAD_wide" });
+            // appears to throw errors at present, investigation why
         }
         return [
             {
@@ -227,7 +230,7 @@ async function fetchPaD() {
     } else {
         return [
             {
-                text: "Import from PoetryDB failed",
+                text: "Import of Poem-a-Day failed",
             },
         ];
         console.error(data);
