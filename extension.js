@@ -51,7 +51,7 @@ export default {
                 });
             }
         });
-
+/*
         extensionAPI.ui.commandPalette.addCommand({
             label: "Poem-a-Day from Poets.org",
             callback: () => {
@@ -76,6 +76,7 @@ export default {
                 });
             }
         });
+        */
 
         const args = {
             text: "POEMIST",
@@ -95,15 +96,15 @@ export default {
         if (window.roamjs?.extension?.smartblocks) {
             //window.roamjs.extension.smartblocks.registerCommand(args);
             window.roamjs.extension.smartblocks.registerCommand(args1);
-            window.roamjs.extension.smartblocks.registerCommand(args2);
+            //window.roamjs.extension.smartblocks.registerCommand(args2);
         } else {
             document.body.addEventListener(
                 `roamjs:smartblocks:loaded`,
                 () =>
                     window.roamjs?.extension.smartblocks &&
                   //  window.roamjs.extension.smartblocks.registerCommand(args) &&
-                    window.roamjs.extension.smartblocks.registerCommand(args1) &&
-                    window.roamjs.extension.smartblocks.registerCommand(args2)
+                    window.roamjs.extension.smartblocks.registerCommand(args1)
+                  //  window.roamjs.extension.smartblocks.registerCommand(args2)
             );
         }
     },
@@ -111,7 +112,7 @@ export default {
         if (window.roamjs?.extension?.smartblocks) {
            // window.roamjs.extension.smartblocks.unregisterCommand("POEMIST");
             window.roamjs.extension.smartblocks.unregisterCommand("POETRYDB");
-            window.roamjs.extension.smartblocks.unregisterCommand("POEMADAY");
+           // window.roamjs.extension.smartblocks.unregisterCommand("POEMADAY");
         }
     }
 }
