@@ -66,13 +66,15 @@ export default {
                 fetchPaD().then(async (blocks) => {
                     await window.roamAlphaAPI.updateBlock(
                         { block: { uid: uid, string: blocks[0].text.toString(), open: true } });
-                    for (var i = 0; i < blocks[0].children.length; i++) {
-                        var thisBlock = window.roamAlphaAPI.util.generateUID();
-                        await window.roamAlphaAPI.createBlock({
-                            location: { "parent-uid": uid, order: i + 1 },
-                            block: { string: blocks[0].children[i].text.toString(), uid: thisBlock }
-                        });
-                    };
+                    if (blocks[0].hasOwnProperty("children")) {
+                        for (var i = 0; i < blocks[0].children.length; i++) {
+                            var thisBlock = window.roamAlphaAPI.util.generateUID();
+                            await window.roamAlphaAPI.createBlock({
+                                location: { "parent-uid": uid, order: i + 1 },
+                                block: { string: blocks[0].children[i].text.toString(), uid: thisBlock }
+                            });
+                        };
+                    }
                 });
             }
         });
@@ -137,12 +139,12 @@ async function fetchRandomPoemist() {
             },
         ];
     } else {
+        console.error(data);
         return [
             {
                 text: "Import from Poemist failed",
             },
         ];
-        console.error(data);
     }
 };
 
@@ -165,12 +167,12 @@ async function fetchRandomPoetryDB() {
             },
         ];
     } else {
+        console.error(data);
         return [
             {
                 text: "Import from PoetryDB failed",
             },
         ];
-        console.error(data);
     }
 };
 
@@ -182,15 +184,7 @@ async function fetchPaD() {
         let poet = data.author.toString();
         let title = data.title.toString();
         let attrib = data.attribution.toString();
-        // attrib = attrib.replace("<p>", "");
-        // attrib = attrib.replace("</p>", "");
-        // attrib = attrib.replaceAll("<span>", "");
-        // attrib = attrib.replaceAll("</span>", "");
-        // attrib = attrib.replaceAll("&nbsp;", "");
-        // const regex = /(<p>)?<span class=("long line"|"long-line")>(.+)<\/span>(<\/p>|<br \/>)/mg;
-        // const subst = `$3`;
-        // const result = data[0].poem.text.toString().replace(regex, subst);
-        // var result1 = result.replaceAll("\r", "");
+
         let text = data.text;
         let poemBlocks = text.split("\n");
 
@@ -207,21 +201,11 @@ async function fetchPaD() {
             }
         }
         poemBlockOutput.push({ "text": "---" });
-        /*
-        if (data[0].poem.hasOwnProperty("about") && data[0].poem.about != "") {
-            let about = strip(data[0].poem.about.toString());
-            poemBlockOutput.push({ "text": about });
-        }
-        */
         poemBlockOutput.push({ "text": attrib });
 
         if (data.soundcloud != null) {
             let sc = data.soundcloud.toString();
-            // const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
-            // const scSubst = `$1`;
-            // const scResult = sc.replace(scRegex, scSubst);
             poemBlockOutput.push({ "text": "{{iframe: " + sc + "}} #PAD_wide" });
-            // appears to throw errors at present, investigation why
         }
         return [
             {
@@ -230,12 +214,12 @@ async function fetchPaD() {
             },
         ];
     } else {
+        console.error(data);
         return [
             {
                 text: "Import of Poem-a-Day failed",
             },
         ];
-        console.error(data);
     }
 };
 
