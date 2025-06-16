@@ -51,7 +51,7 @@ export default {
                 });
             }
         });
-/*
+
         extensionAPI.ui.commandPalette.addCommand({
             label: "Poem-a-Day from Poets.org",
             callback: () => {
@@ -76,7 +76,6 @@ export default {
                 });
             }
         });
-        */
 
         const args = {
             text: "POEMIST",
@@ -96,23 +95,23 @@ export default {
         if (window.roamjs?.extension?.smartblocks) {
             //window.roamjs.extension.smartblocks.registerCommand(args);
             window.roamjs.extension.smartblocks.registerCommand(args1);
-            //window.roamjs.extension.smartblocks.registerCommand(args2);
+            window.roamjs.extension.smartblocks.registerCommand(args2);
         } else {
             document.body.addEventListener(
                 `roamjs:smartblocks:loaded`,
                 () =>
                     window.roamjs?.extension.smartblocks &&
-                  //  window.roamjs.extension.smartblocks.registerCommand(args) &&
-                    window.roamjs.extension.smartblocks.registerCommand(args1)
-                  //  window.roamjs.extension.smartblocks.registerCommand(args2)
+                    //  window.roamjs.extension.smartblocks.registerCommand(args) &&
+                    window.roamjs.extension.smartblocks.registerCommand(args1) &&
+                    window.roamjs.extension.smartblocks.registerCommand(args2)
             );
         }
     },
     onunload: () => {
         if (window.roamjs?.extension?.smartblocks) {
-           // window.roamjs.extension.smartblocks.unregisterCommand("POEMIST");
+            // window.roamjs.extension.smartblocks.unregisterCommand("POEMIST");
             window.roamjs.extension.smartblocks.unregisterCommand("POETRYDB");
-           // window.roamjs.extension.smartblocks.unregisterCommand("POEMADAY");
+            window.roamjs.extension.smartblocks.unregisterCommand("POEMADAY");
         }
     }
 }
@@ -176,24 +175,24 @@ async function fetchRandomPoetryDB() {
 };
 
 async function fetchPaD() {
-    const response = await fetch("https://p-a-d-marklavercombe.replit.app/");
+    const response = await fetch("https://fierce-mesa-62869-c6187e85bea8.herokuapp.com/poem-a-day");
 
     if (response.ok) {
         var data = await response.json();
-        data = JSON.parse(data);
-        let poet = data[0].poet.name.toString();
-        let title = data[0].poem.title.toString();
-        let attrib = data[0].poem.attribution.toString();
-        attrib = attrib.replace("<p>", "");
-        attrib = attrib.replace("</p>", "");
-        attrib = attrib.replaceAll("<span>", "");
-        attrib = attrib.replaceAll("</span>", "");
-        attrib = attrib.replaceAll("&nbsp;", "");
-        const regex = /(<p>)?<span class=("long line"|"long-line")>(.+)<\/span>(<\/p>|<br \/>)/mg;
-        const subst = `$3`;
-        const result = data[0].poem.text.toString().replace(regex, subst);
-        var result1 = result.replaceAll("\r", "");
-        let poemBlocks = result1.split("\n");
+        let poet = data.author.toString();
+        let title = data.title.toString();
+        let attrib = data.attribution.toString();
+        // attrib = attrib.replace("<p>", "");
+        // attrib = attrib.replace("</p>", "");
+        // attrib = attrib.replaceAll("<span>", "");
+        // attrib = attrib.replaceAll("</span>", "");
+        // attrib = attrib.replaceAll("&nbsp;", "");
+        // const regex = /(<p>)?<span class=("long line"|"long-line")>(.+)<\/span>(<\/p>|<br \/>)/mg;
+        // const subst = `$3`;
+        // const result = data[0].poem.text.toString().replace(regex, subst);
+        // var result1 = result.replaceAll("\r", "");
+        let text = data.text;
+        let poemBlocks = text.split("\n");
 
         let poemBlockOutput = [];
         for (var i = 0; i < poemBlocks.length; i++) {
@@ -208,18 +207,20 @@ async function fetchPaD() {
             }
         }
         poemBlockOutput.push({ "text": "---" });
+        /*
         if (data[0].poem.hasOwnProperty("about") && data[0].poem.about != "") {
             let about = strip(data[0].poem.about.toString());
             poemBlockOutput.push({ "text": about });
         }
+        */
         poemBlockOutput.push({ "text": attrib });
-        
-        if (data[0].poem.soundcloud != null) {
-            let sc = data[0].poem.soundcloud.toString();
-            const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
-            const scSubst = `$1`;
-            const scResult = sc.replace(scRegex, scSubst);
-            //poemBlockOutput.push({ "text": "{{iframe: " + scResult + "}} #PAD_wide" });
+
+        if (data.soundcloud != null) {
+            let sc = data.soundcloud.toString();
+            // const scRegex = /^.+(https:\/\/playlist\.megaphone\.fm\/\?e=\w+)".+$/g;
+            // const scSubst = `$1`;
+            // const scResult = sc.replace(scRegex, scSubst);
+            poemBlockOutput.push({ "text": "{{iframe: " + sc + "}} #PAD_wide" });
             // appears to throw errors at present, investigation why
         }
         return [
