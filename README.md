@@ -1,4 +1,4 @@
-Import a poem from the collection at PoetryDB, including the full poem text. Or, reterieve the poem-a-day from poets.org.
+Import a poem from the collection at PoetryDB, including the full poem text. Or, retrieve the poem-a-day from poets.org.
 
 **New:**
 - restored access to Poem-A-Day from poets.org
